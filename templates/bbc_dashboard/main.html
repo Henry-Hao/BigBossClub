@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <title>Main</title>
+    <link rel="stylesheet" href="{% static 'lib/bootstrap.min.css' %}" >
+	<script src="{% static 'lib/jquery-2.1.4.min.js' %}"></script>
+	<script src="{% static 'lib/bootstrap.min.js' %}"></script>
+	
+    <link rel="stylesheet" href="{% static 'bbc_dashboard/css/index.css' %}" >
+    <link href="{% static 'lib/bootstrap-table.css' %}" rel="stylesheet">
+
+	<script src="{% static 'bbc_dashboard/js/home.js' %}"></script>
+    <script src="{% static 'lib/bootstrap-table.js' %}"></script>
+</head>
+<body>
+<body style="background-color: #bad1e3">
+<div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand">BigBossClue</a>
+            <a class="right navbar-brand " href="/">Logout</a>
+            <p class="navbar-brand welcome">Welcome! {{ username }}</p>
+            <p class="navbar-brand time"></p>
+        </div>
+    </nav>
+    <div class="mynav">
+        <p class="myp"></p>
+        <p class="mylisthead">Functionalities</p>
+        <a href="#" id="search" onclick="navClick(this.id)" style="text-decoration: none">Search</a>
+        <a href="#" id="result" onclick="navClick(this.id)" style="text-decoration: none">Result</a>
+    </div>
+
+
+    <iframe class="myframe" name="myf" id="myf" src="{% static 'bbc_dashboard/init.html' %}"></iframe>
+
+</div>
+
+</body>
+</body>
+</html>
