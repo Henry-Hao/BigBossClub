@@ -1,7 +1,4 @@
 $(document).ready(function(){
-	
-
-
     $("#register").click(function(){
         $(".login-part").hide();
         $(".register-part").show();
@@ -12,11 +9,6 @@ $(document).ready(function(){
         $(".register-part").hide();
     });
     
-    // $("#register_submit").click(function(){
-    	
-    	
-    // });
-
 });
 
 function check(){

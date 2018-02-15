@@ -8,6 +8,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.core.serializers.json import DjangoJSONEncoder
+import logging
 
 
 class Attendance(models.Model):
@@ -20,6 +22,13 @@ class Attendance(models.Model):
         db_table = 'attendance'
         unique_together = (('class_field', 'std'),)
 
+    def as_dict(self):
+        return {
+            "class_id":self.class_field_id,
+            "std":self.std_id,
+            "att_date":self.att_date
+        }
+
 
 class Class(models.Model):
     class_id = models.AutoField(db_column='CLASS_ID', primary_key=True)  # Field name made lowercase.
@@ -31,6 +40,15 @@ class Class(models.Model):
     class Meta:
         managed = True
         db_table = 'class'
+
+    def as_dict(self):
+        return {
+            "class_id":self.class_id,
+            "inst_id":self.inst_id,
+            "class_time":self.class_time,
+            "class_level":self.class_level,
+            "class_day":self.class_day
+        }
 
 
 class DjangoMigrations(models.Model):
@@ -54,6 +72,15 @@ class Fees(models.Model):
         managed = True
         db_table = 'fees'
 
+    def as_dict(self):
+        return {
+            "fees_id":self.fees_id,
+            "std_id":self.std_id,
+            "fees_type":self.fees_type,
+            "fees_date":self.fees_date,
+            "fees_amount":self.fees_amount
+        }
+
 
 class Instructor(models.Model):
     inst_id = models.AutoField(db_column='INST_ID', primary_key=True)  # Field name made lowercase.
@@ -62,6 +89,12 @@ class Instructor(models.Model):
     class Meta:
         managed = True
         db_table = 'instructor'
+
+    def as_dict(self):
+        return {
+            "inst_id":self.inst_id,
+            "inst_lname":self.inst_lname
+        }
 
 
 class Parent(models.Model):
@@ -75,6 +108,15 @@ class Parent(models.Model):
         managed = True
         db_table = 'parent'
 
+    def as_dict(self):
+        return {
+            "par_id":self.par_id,
+            "par_name":self.par_name,
+            "par_mobilenumber":self.par_mobilenumber,
+            "par_email":self.par_email,
+            "par_stu":self.par_stu_id
+        }
+
 
 class Rank(models.Model):
     rank_id = models.AutoField(db_column='RANK_ID', primary_key=True)  # Field name made lowercase.
@@ -85,6 +127,14 @@ class Rank(models.Model):
     class Meta:
         managed = True
         db_table = 'rank'
+
+    def as_dict(self):
+        return {
+            "rank_id":self.rank_id,
+            "std_id":self.std_id,
+            "rank_color":self.rank_color,
+            "rank_date":self.rank_date
+        }
 
 
 class Student(models.Model):
@@ -100,4 +150,16 @@ class Student(models.Model):
     class Meta:
         managed = True
         db_table = 'student'
+
+    def as_dict(self):
+        return {
+            "std_id":self.std_id,
+            "par_id":self.par_id,
+            "std_name":self.std_name,
+            "std_dob":self.std_dob,
+            "std_dojoin":self.std_dojoin,
+            "std_mobilenumber":self.std_mobilenumber,
+            "std_email":self.std_email,
+            "std_add":self.std_add
+        }
 

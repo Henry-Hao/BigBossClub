@@ -3,11 +3,13 @@ from django.contrib.auth import authenticate,login as ll
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import MultipleObjectsReturned
+from bbc_db.models import Student
+import json, logging
 
 # Create your views here.
 
-def home(request):
-    return render(request,'home.html')
+def index(request):
+    return render(request,'index.html')
 
 
 def login(request):
@@ -24,11 +26,11 @@ def login(request):
             return render(request,'bbc_dashboard/main.html',context={"username":username})
         # authentication fail
         else:
-            return render(request,'home.html',context={
+            return render(request,'index.html',context={
                 "flag":"WrongPassword"
             })
     else:
-        return render(request,'home.html',context={
+        return render(request,'index.html',context={
                 "flag":"WrongPassword"
             })
     
@@ -52,11 +54,21 @@ def register(request):
             return render(request,'bbc_dashboard/main.html',context={"username":username})
         # multiple records with same username are found
         except MultipleObjectsReturned:
-            return render(request,'home.html',context={
+            return render(request,'index.html',context={
                 "flag":"Existed"
             })
 
-        return render(request,'home.html',context={
+        return render(request,'index.html',context={
                 "flag":"Existed"
             })
+
+def student(request):
+    return render(request,'bbc_dashboard/student.html')
+
+def studentdata(request):
+    objects = Student.objects.all()
+    obj = [dict({'id':i},**(objects[i]).as_dict()) for i in range(len(objects))]
+    obj = json.dumps(obj)
+    logging.debug(obj)
+    return HttpResponse(obj,content_type="applicetion/json")
 

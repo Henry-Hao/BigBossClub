@@ -4,7 +4,10 @@ from . import views
 
 app_name = "bbc_dashboard"
 urlpatterns = [
-    url(r'^$',views.home, name='home'),
+    url(r'^$',views.index, name='index'),
     url(r'^login$',views.login,name='login'),
     url(r'^register$',views.register,name='register'),
+    url(r'^student$',views.student, name='student'),
+    url(r'^student/data$',views.studentdata, name='student.data'),
+    
 ]

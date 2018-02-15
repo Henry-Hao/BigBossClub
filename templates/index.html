@@ -1,12 +1,90 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+{% load staticfiles %}
 <html>
 <head>
-{% load staticfiles %}
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+
+<link rel="stylesheet" href="{% static 'lib/bootstrap.min.css' %}" >
+<script src="{% static 'lib/jquery-2.1.4.min.js' %}"></script>
+<script src="{% static 'lib/bootstrap.min.js' %}"></script>
+<script src="{% static 'lib/md5.min.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'bbc_dashboard/css/index.css' %}" >
+<script src="{% static 'bbc_dashboard/js/index.js' %}"></script>
+
+<title>BigBossClub</title>
 </head>
-<body>
-    <iframe src="{% static 'bbc_dashboard/init.html'%}">
-    </iframe>
+
+<body>	
+	 <div class="container" style="text-align: center">
+        <div class="mycontainer">
+            <div>
+                <h1>BigBossClub</h1>
+            </div>
+            
+            <form class="login-part" method="POST" action="{% url 'bbc_dashboard:login' %}">
+                {% csrf_token %}
+                {% if flag == "WrongPassword" %}
+                <span style="color:red">Wrong username or password!</span>
+                {% elif flag == "Existed" %}
+                <span style="color:red">Username already existed!</span>
+                {% endif %}
+
+                <div class="form-group" style="display: inline-block;">
+                    <label class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-8" style="margin-left: 30px;">
+                        <input class="form-control" id="login_username" name="Username" placeholder="Username">
+                    </div>
+                </div>
+                <div class="form-group" style="display: inline-block;">
+                    <label class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-8" style="margin-left: 30px;">
+                        <input type="password" class="form-control" id="login_password" name="Password" placeholder="Password">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-10" style="margin-left:30px">
+                        <button type="submit" id="login" class="btn btn-default">Sign in</button>
+                        <button type="button" id="register" class="btn btn-default">Register</button>
+                    </div>
+                </div>
+            </form>
+
+            <form class="register-part" onsubmit="return check()" style="display: none" method="POST" action="{% url 'bbc_dashboard:register' %}">
+                {% csrf_token %}
+                <div class="form-group" style="display: inline-block;">
+                    <label class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-8" style="margin-left: 30px;">
+                        <input class="form-control" id="register_username" name="Username" placeholder="Username">
+                    </div>
+                </div>
+                <div class="form-group" style="display: inline-block;">
+                    <label class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-8" style="margin-left: 30px;">
+                        <input type="password" class="form-control" id="register_password" name="Password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group" style="display: inline-block;">
+                    <label class="col-sm-2 control-label">Confirm Password</label>
+                    <div class="col-sm-8" style="margin-left: 30px;">
+                        <input type="password" class="form-control" id="register_password_confirmed" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group" style="display: inline-block;">
+                        <label class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-8" style="margin-left: 30px;">
+                            <input type="email" class="form-control" id="register_email" name="Email" placeholder="Email">
+                        </div>
+                    </div>
+                <div class="form-group">
+                    <div class="col-sm-10" style="margin-left:30px">
+                        <button type="submit" id="register_submit" class="btn btn-default">Submit</button>
+                        <button id="back" class="btn btn-default">Back</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

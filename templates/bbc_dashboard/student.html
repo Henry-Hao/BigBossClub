@@ -1,0 +1,231 @@
+
+	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	<html>
+	<head>
+	{% load staticfiles %}
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Search</title>
+
+	<link rel="stylesheet" href="{% static 'lib/bootstrap.min.css' %}" >
+	<script src="{% static 'lib/jquery-2.1.4.min.js' %}"></script>
+	<script src="{% static 'lib/bootstrap.min.js' %}"></script>
+
+	<link rel="stylesheet" href="{% static 'bbc_dashboard/css/index.css' %}" >
+	<link href="{% static 'lib/bootstrap-table.css' %}" rel="stylesheet">
+	<link href="{% static 'lib/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+
+	<script src="{% static 'bbc_dashboard/js/student.js' %}"></script>
+	<script src="{% static 'lib/bootstrap-table.js' %}"></script>
+	<script src="{% static 'lib/bootstrap-datetimepicker.js' %}"></script>
+	<script src="{% static 'lib/js.cookie.js' %}"></script>
+	</head>
+	<body>
+	<div class="container-fluid">
+		<div id="toolbar" class="btn-group">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal" id='btn_add'>ADD</button>
+		</div>
+		<table id="studentTable" 
+				data-url={% url 'bbc_dashboard:student.data' %}
+				data-show-toggle="true"
+				data-search="true"           
+				data-show-filter="true"
+				data-striped="true"
+				data-sort="name"
+				data-toolbar="#toolbar"
+				data-sort-order="desc">
+			<thead>
+			<tr>
+				<th data-field="id" data-width="20" data-align="left" data-sortable="true">No</th>
+				<th data-visible=false data-field="std_id" data-width="30" data-align="left">Id</th>
+				<th data-visible=false data-field="par_id" data-width="30" data-align="left">Parent</th>
+				<th data-field="std_name" data-width="30" data-align="left" data-sortable="true">Name</th>
+				<th data-field="std_dob" data-width="25" data-align="left" data-sortable="true">Day of Birth</th>
+				<th data-field="std_dojoin" data-width="25" data-align="left" data-sortable="true">Day of Joining</th>
+				<th data-field="std_email"data-width="80" data-align="left" data-sortable="true">Email</th>
+				<th data-field="std_mobilenumber"data-width="80" data-align="left" data-sortable="true">Mobile</th>
+				<th data-field="modify" data-width="20" data-formatter="modifyFormatter" data-events="modifyEvents">Modify</th>
+				<th data-field="remove" data-width="20" data-formatter="removeFormatter" data-events="removeEvents">Remove</th>
+			</tr>
+			</thead>
+		</table>
+	</div>
+
+	<div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" 
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+					aria-hidden="true">x
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					Modify a student
+				</h4>
+				</div>
+				<div class="modal-body">
+					<form class="bs-example bs-example-form" role="form" id="modifyStudentForm" method="POST" action="{% url 'bbc_db:modifyStudent' %}">
+						{% csrf_token %} 
+						<input type="hidden" name="std_id" id="modify_std_id" value="">
+						<div class="input-group">
+							<span class="input-group-addon">Name</span>
+							<input type="text" class="form-control comp_sponsor" style="width: 200px" id="modify_name" name="name"  placeholder="name">
+						</div>
+						<br>
+						<div class="input-group">
+							<span class="input-group-addon">Email</span>
+							<input type="email" class="form-control comp_sponsor" style="width: 200px" id="modify_email" name="email"  placeholder="email">
+						</div>
+						<br>
+						<br>
+						<div class="input-group">
+							<span class="input-group-addon">MobileNumber</span>
+							<input type="text" class="form-control" id="modify_mobilenumber" style="width: 200px" maxlength="15" name="mobilenumber" placeholder="MobileNumber">
+						</div>
+						<br>
+						<br>
+						<div class="form-group">
+							<div class="input-group date date col-md-3 " id="modify_dob" data-date="" data-date-format="yyyy-mm-dd" data-link-field="modify_dob_input" data-link-format="yyyy-mm-dd">
+								<label for="modify_dob_input" class="input-group-addon control-label">Date of Birth</label>
+								<input class="form-control" size="8" type="text" value="" readonly>
+								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							</div>
+							<input type="hidden" id="modify_dob_input" name="dob" value="" /><br/>
+							
+							<div class="input-group date date col-md-3 " id="modify_doj" data-date="" data-date-format="yyyy-mm-dd" data-link-field="modify_doj_input" data-link-format="yyyy-mm-dd">
+								<label for="modify_doj_input" class="input-group-addon control-label">Date of Joining</label>
+								<input class="form-control" size="8" type="text" value="" readonly>
+								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							</div>
+							<input type="hidden" id="modify_doj_input" name="doj" value="" /><br/>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+					data-dismiss="modal">close
+				</button>
+				<button type="button" class="btn btn-primary" id='sendConfirm2' data-dismiss="modal" data-toggle="modal" data-target="#confirmModal2">
+					modify
+				</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" 
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+				aria-hidden="true">x
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					Gnerate a new student
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form class="bs-example bs-example-form" role="form" id="addStudentForm" method="POST" action="{% url 'bbc_db:addStudent' %}">
+					{% csrf_token %} 
+					<div class="input-group">
+						<span class="input-group-addon">Name</span>
+						<input type="text" class="form-control comp_sponsor" style="width: 200px" id="add_name" name="name"  placeholder="name">
+					</div>
+					<br>
+					<div class="input-group">
+						<span class="input-group-addon">Email</span>
+						<input type="email" class="form-control comp_sponsor" style="width: 200px" id="add_email" name="email"  placeholder="email">
+					</div>
+					<br>
+					<br>
+					<div class="input-group">
+						<span class="input-group-addon">MobileNumber</span>
+						<input type="text" class="form-control" id="add_mobilenumber" style="width: 200px" maxlength="15" name="mobilenumber" placeholder="MobileNumber">
+					</div>
+					<br>
+					<br>
+					<div class="form-group">
+						<div class="input-group date date col-md-3 " id="add_dob" data-date="" data-date-format="yyyy-mm-dd" data-link-field="add_dob_input" data-link-format="yyyy-mm-dd">
+							<label for="add_dob_input" class="input-group-addon control-label">Date of Birth</label>
+							<input class="form-control" size="8" type="text" value="" readonly>
+							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+						</div>
+						<input type="hidden" id="add_dob_input" name="dob" value="" /><br/>
+						
+						<div class="input-group date date col-md-3 " id="add_doj" data-date="" data-date-format="yyyy-mm-dd" data-link-field="add_doj_input" data-link-format="yyyy-mm-dd">
+							<label for="add_doj_input" class="input-group-addon control-label">Date of Joining</label>
+							<input class="form-control" size="8" type="text" value="" readonly>
+							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+						</div>
+						<input type="hidden" id="add_doj_input" name="doj" value="" /><br/>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+				data-dismiss="modal">close
+				</button>
+				<button type="button" class="btn btn-primary" id='sendConfirm' data-dismiss="modal" data-toggle="modal" data-target="#confirmModal">
+				add
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" 
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" 
+				aria-hidden="true">x
+			</button>
+			<h4 class="modal-title" id="myModalLabel">
+				Confirmation
+			</h4>
+			</div>
+			<div class="modal-body">
+			Please make sure everything is correct!
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-default" 
+				data-dismiss="modal">Close
+			</button>
+			<button type="button" class="btn btn-primary" id='addStudentConfirm' data-dismiss="modal">
+				Confirm
+			</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="confirmModal2" tabindex="-1" role="dialog" 
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" 
+				aria-hidden="true">x
+			</button>
+			<h4 class="modal-title" id="myModalLabel">
+				Confirmation
+			</h4>
+			</div>
+			<div class="modal-body">
+			Please make sure everything is correct!
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-default" 
+				data-dismiss="modal">Close
+			</button>
+			<button type="button" class="btn btn-primary" id='modifyStudentConfirm' data-dismiss="modal">
+				Confirm
+			</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+</body>
+</html>
