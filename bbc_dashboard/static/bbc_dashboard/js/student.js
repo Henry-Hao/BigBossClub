@@ -1,8 +1,5 @@
-var start_time;
-var end_time;
 $(document).ready(function(){
 	$table = $("#studentTable").bootstrapTable({
-        // data:JSON.parse($("#data").html()),
 		striped: true,
 		pagination: true,
 		height: 600,
@@ -155,19 +152,6 @@ function removeFormatter(value, row, index) {
 }
 window.removeEvents = {
 		'click .remove':function (e,value,row,index){
-			var csrftoken = Cookies.get('csrftoken');
-
-			function csrfSafeMethod(method) {
-				// these HTTP methods do not require CSRF protection
-				return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-			}
-			$.ajaxSetup({
-				beforeSend: function(xhr, settings) {
-					if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-						xhr.setRequestHeader("X-CSRFToken", csrftoken);
-					}
-				}
-			});
 
 			if(confirm("Are you sure to remove it??")){
 				$.ajax({

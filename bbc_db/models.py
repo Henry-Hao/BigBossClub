@@ -36,6 +36,7 @@ class Class(models.Model):
     class_time = models.CharField(db_column='CLASS_TIME', max_length=45, blank=True, null=True)  # Field name made lowercase.
     class_level = models.CharField(db_column='CLASS_LEVEL', max_length=45, blank=True, null=True)  # Field name made lowercase.
     class_day = models.CharField(db_column='CLASS_DAY', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    class_name = models.CharField(db_column='CLASS_NAME', max_length=45, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = True
@@ -45,6 +46,8 @@ class Class(models.Model):
         return {
             "class_id":self.class_id,
             "inst_id":self.inst_id,
+            "inst":Instructor.objects.filter(inst_id=self.inst_id)[0].inst_lname,
+            "class_name":self.class_name,
             "class_time":self.class_time,
             "class_level":self.class_level,
             "class_day":self.class_day

@@ -7,4 +7,7 @@ urlpatterns = [
     url(r'^addStudent$',views.addStudent, name='addStudent'),
     url(r'^modifyStudent$',views.modifyStudent, name='modifyStudent'),
     url(r'^deleteStudent$',views.deleteStudent, name='deleteStudent'),
+    url(r'^addClass$',views.addClass, name='addClass'),
+    url(r'^modifyClass$',views.modifyClass, name='modifyClass'),
+    url(r'^deleteClass$',views.deleteClass,name='deleteClass')
 ]

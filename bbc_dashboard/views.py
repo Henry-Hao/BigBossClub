@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate,login as ll
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import MultipleObjectsReturned
-from bbc_db.models import Student
+from bbc_db.models import *
 import json, logging
 
 # Create your views here.
@@ -67,8 +67,18 @@ def student(request):
 
 def studentdata(request):
     objects = Student.objects.all()
-    obj = [dict({'id':i},**(objects[i]).as_dict()) for i in range(len(objects))]
+    obj = [dict({'id':i+1},**(objects[i]).as_dict()) for i in range(len(objects))]
     obj = json.dumps(obj)
-    logging.debug(obj)
     return HttpResponse(obj,content_type="applicetion/json")
 
+def showclass(request):
+    inst_objs = [x.as_dict() for x in Instructor.objects.all()]
+    return render(request,'bbc_dashboard/class.html',context={
+        'insts':inst_objs
+        })
+
+def classdata(request):
+    objects = Class.objects.all()
+    obj = [dict({"id":i+1},**(objects[i]).as_dict()) for i in range(len(objects))]
+    obj = json.dumps(obj)
+    return HttpResponse(obj,content_type="application/json")
