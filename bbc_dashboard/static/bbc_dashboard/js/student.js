@@ -248,6 +248,3 @@ function initParTable(e,id){
 	}
 }
 
-function checkModifyDOB(){
-
-}

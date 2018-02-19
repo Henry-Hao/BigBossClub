@@ -12,5 +12,7 @@ urlpatterns = [
     url(r'^class$',views.showclass,name='class'),
     url(r'^class/data$',views.classdata,name='class.data'),
     url(r'^parent$',views.parent,name="parent"),
-    url(r'^parent/data$', views.parentdata, name="parent.data")
+    url(r'^parent/data$', views.parentdata, name="parent.data"),
+    url(r'^instructor$',views.instructor,name='instructor'),
+    url(r'^instructor/data$',views.instructordata,name='instructor.data'),
 ]

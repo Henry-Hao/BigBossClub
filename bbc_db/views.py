@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 import logging
-from .models import Parent,Student,Class
+from .models import *
 import json
 
 # Create your views here.
@@ -97,3 +97,24 @@ def deleteParent(request):
     obj = Parent.objects.get(par_id=post['removeId'])
     obj.delete()
     return HttpResponse(json.dumps({'r':"success"}),content_type="application/json")
+
+def addInstructor(request):
+    post = request.POST
+    instructor = Instructor(inst_lname=post['name'])
+    instructor.save()
+    return redirect('/instructor')
+
+def modifyInstructor(request):
+    post = request.POST
+    inst_id = post['id']
+    inst_lname = post['name']
+    logging.debug(post)
+    instructor = Instructor.objects.get(inst_id=inst_id)
+    instructor.inst_lname = inst_lname
+    instructor.save()
+    return redirect('/instructor')
+
+def deleteInstructor(request):
+    instructor = Instructor.objects.get(inst_id=request.POST['removeId'])
+    instructor.delete()
+    return HttpResponse(json.dumps({'r':'success'}),content_type='application/json')
