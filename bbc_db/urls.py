@@ -9,5 +9,8 @@ urlpatterns = [
     url(r'^deleteStudent$',views.deleteStudent, name='deleteStudent'),
     url(r'^addClass$',views.addClass, name='addClass'),
     url(r'^modifyClass$',views.modifyClass, name='modifyClass'),
-    url(r'^deleteClass$',views.deleteClass,name='deleteClass')
+    url(r'^deleteClass$',views.deleteClass,name='deleteClass'),
+    url(r'^addParent$',views.addParent, name='addParent'),
+    url(r'^modifyParent$',views.modifyParent,name='modifyParent'),
+    url(r'^deleteParent$',views.deleteParent,name='deleteParent')
 ]

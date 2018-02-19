@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 import logging
-from .models import Student, Class
+from .models import Parent,Student,Class
 import json
 
 # Create your views here.
@@ -10,12 +10,15 @@ def addStudent(request):
     mobilenumber = request.POST['mobilenumber']
     dob = request.POST['dob']
     doj = request.POST['doj']
+    parid = request.POST['par_id']
     student = Student(
         std_name=name,
         std_email=email,
         std_mobilenumber=mobilenumber,
         std_dob=dob,
         std_dojoin=doj)
+    if parid != 'null':
+        student.par_id = parid
     student.save()
     return render(request,'bbc_dashboard/student.html')
 
@@ -27,6 +30,10 @@ def modifyStudent(request):
     student.std_mobilenumber = request.POST['mobilenumber']
     student.std_dob = request.POST['dob']
     student.std_dojoin = request.POST['doj']
+    if request.POST['par_id'] != 'null':
+        student.par_id = request.POST['par_id']
+    else:
+        student.par_id = ""
     student.save()
     return render(request,'bbc_dashboard/student.html')
 
@@ -48,7 +55,7 @@ def addClass(request):
     )
     # logging.debug(post)
     class_obj.save()
-    return render(request,'bbc_dashboard/class.html') 
+    return redirect('/class')
 
 def modifyClass(request):
     post = request.POST
@@ -62,7 +69,31 @@ def modifyClass(request):
     return redirect('/class')
 
 def deleteClass(request):
-    logging.debug(request.POST)
     obj = Class.objects.get(class_id=request.POST['removeId'])
     obj.delete()
     return HttpResponse(json.dumps({"r":"success"}),content_type="application/json")
+
+def addParent(request):
+    post = request.POST
+    parent_obj = Parent(
+        par_name=post['name'],
+        par_email=post['email'],
+        par_mobilenumber=post['mobilenumber']
+    )
+    parent_obj.save()
+    return redirect('/parent')
+
+def modifyParent(request):
+    post = request.POST
+    obj = Parent.objects.get(par_id=post['id'])
+    obj.par_name = post['name']
+    obj.par_email = post['email']
+    obj.par_mobilenumber = post['mobilenumber']
+    obj.save()
+    return redirect('/parent')
+
+def deleteParent(request):
+    post = request.POST
+    obj = Parent.objects.get(par_id=post['removeId'])
+    obj.delete()
+    return HttpResponse(json.dumps({'r':"success"}),content_type="application/json")

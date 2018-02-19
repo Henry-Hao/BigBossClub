@@ -82,3 +82,12 @@ def classdata(request):
     obj = [dict({"id":i+1},**(objects[i]).as_dict()) for i in range(len(objects))]
     obj = json.dumps(obj)
     return HttpResponse(obj,content_type="application/json")
+
+def parent(request):
+    return render(request, 'bbc_dashboard/parent.html')
+
+def parentdata(request):
+    objects = Parent.objects.all()
+    obj = [dict({"id":i+1},**(objects[i]).as_dict()) for i in range(len(objects))]
+    obj = json.dumps(obj)
+    return HttpResponse(obj,content_type="application/json")

@@ -1,3 +1,9 @@
+$add_par_id = null;
+$under18 = true;
+$modify_par_id = null;
+$under18_m = true;
+$flag = false;
+$list=[];
 $(document).ready(function(){
 	$table = $("#studentTable").bootstrapTable({
 		striped: true,
@@ -36,6 +42,18 @@ $(document).ready(function(){
 	.datetimepicker()
 	.on('changeDate', function(ev){
 		time = $("#add_dob_input").val();
+		d = ev.date;
+		timeofbirth = Date.UTC(1900+d.getYear(),1+d.getMonth(),d.getDate());
+		r = Date.now() - timeofbirth;
+		if(r >= 567993600000){
+			$("#addParentDiv").hide();
+			$under18 = false;
+			$add_par_id = null;
+		} else {
+			$("#addParentDiv").show();
+			$under18 = true;
+		}
+
 	});
 	$('#add_dob').datetimepicker('setEndDate', new Date());
 	
@@ -58,6 +76,15 @@ $(document).ready(function(){
 			alert("All fields should be filled!");
 			return;
 		}
+
+		if($under18 && $add_par_id == null){
+			alert("Juveniles need one parent!");
+			return;
+		}
+		if($under18)
+			$("#addParId").val($add_par_id);
+		else
+			$("#addParId").val("null");
 		
 		$("#addStudentForm").submit();
 	});
@@ -73,23 +100,35 @@ $(document).ready(function(){
 			alert("All fields should be filled!");
 			return;
 		}
+		if($under18_m && $modify_par_id == null){
+			alert("Juveniles need one parent!");
+			return;
+		}
+		if($under18_m)
+			$("#modifyParId").val($modify_par_id);
+		else
+			$("#mofidyParId").val("null");
+
 		
 		$("#modifyStudentForm").submit();
 	});
+
+
+	$("#btn_add").click(function(){
+		$table2 = $("#addParentTable").bootstrapTable({
+			striped: true,
+			pagination: true,
+			height: 300,
+			width:400,
+			pageSize: 12
+		}).on('click-row.bs.table',function(event,row,element){
+			element.find("input").prop("checked",true);
+			$add_par_id = row['par_id'];
+		})
+
+	})
+
 })
-
-
-function removeTerm(node){
-	$(node).parent().remove();
-}
-
-function modifyFormatter(value, row, index){
-	return [
-		'<a class="modify" data-dismiss="modal" data-toggle="modal" data-target="#modifyModal" style="text-decoration:none; text-align:center" href=# title="Modify">',
-			'<i class="glyphicon glyphicon-edit"></i>',
-		'</a>'
-	].join('');
-}
 
 window.modifyEvents = {
 	'click .modify':function(e,value,row,index){
@@ -99,6 +138,28 @@ window.modifyEvents = {
 		$("#modify_mobilenumber").val(row['std_mobilenumber']);
 		$("#modify_dob input").val(row['std_dob']);
 		$("#modify_doj input").val(row['std_dojoin']);
+		$("#modify_dob_input").val(row['std_dob']);
+		$("#modify_doj_input").val(row['std_dojoin']);
+
+
+		$("#modifyParentTable").bootstrapTable({
+			striped:true,
+			pagination:true,
+			height:300,
+			width:400,
+			pageSize:12
+		}).on('load-success.bs.table',function(e,data){
+			$.each(data,function(index,value){
+				$list[value.par_id] = index;
+			})
+			initParTable(e,row['par_id']);
+			$flag = true;
+		}).on('click-row.bs.table',function(event,row,element){
+			element.find("input").prop("checked",true);
+			$modify_par_id = row['par_id'];
+		})
+		if($flag)
+			initParTable(e,row['par_id']);
 
 		$('#modify_dob').datetimepicker({
 			language:  'en',
@@ -128,6 +189,17 @@ window.modifyEvents = {
 		.datetimepicker()
 		.on('changeDate', function(ev){
 			time = $("#modify_dob_input").val();
+			d = ev.date;
+			timeofbirth = Date.UTC(1900+d.getYear(),1+d.getMonth(),d.getDate());
+			r = Date.now() - timeofbirth;
+			if(r >= 567993600000){
+				$("#modifyParentDiv").hide();
+				$under18_m = false;
+				$modify_par_id = null;
+			} else {
+				$("#modifyParentDiv").show();
+				$under18_m = true;
+			}
 		});
 		$('#modify_dob').datetimepicker('setEndDate', new Date());
 		
@@ -137,22 +209,11 @@ window.modifyEvents = {
 			time = $("#modify_doj_input").val();
 		});
 		$('#modify_doj').datetimepicker('setEndDate', new Date());
-		
 	}
 }
 
-
-
-function removeFormatter(value, row, index) {
-    return [
-        '<a class="remove" style="text-decoration:none; text-align:center" href=# title="Remove">',
-            '<i class="glyphicon glyphicon-remove"></i>',
-        '</a>'
-    ].join('');
-}
 window.removeEvents = {
 		'click .remove':function (e,value,row,index){
-
 			if(confirm("Are you sure to remove it??")){
 				$.ajax({
 					url:"/deleteStudent",
@@ -167,4 +228,26 @@ window.removeEvents = {
 				})
 			}
 		}
+}
+
+function initParTable(e,id){
+	if(id != null){
+		$modify_par_id = id;
+		$under18_m = true;
+		pos = $list[id];
+		$("#modifyParentTable tbody tr:eq(" + pos + ") input").prop('checked','true');
+		$("#modifyParentDiv").show();
+	}else {
+		$modify_par_id = null;
+		$under18_m = false;
+		//uncheck every radiobox
+		$.each($("#modifyParentTable tbody tr input"),function(i,e){
+			$(e).prop("checked",false)
+		 })
+		$("#modifyParentDiv").hide();
+	}
+}
+
+function checkModifyDOB(){
+
 }

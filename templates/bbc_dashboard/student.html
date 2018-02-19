@@ -101,6 +101,27 @@
 							</div>
 							<input type="hidden" id="modify_doj_input" name="doj" value="" /><br/>
 						</div>
+						<input type="hidden" id="modifyParId" name="par_id">
+						<div id="modifyParentDiv">
+							<table id="modifyParentTable" 
+								data-url={% url 'bbc_dashboard:parent.data' %}
+								data-search="true"           
+								data-show-filter="true"
+								data-striped="true"
+								data-sort="name"
+								data-sort-order="desc">
+							<thead>
+							<tr>
+								<th data-field="state" data-radio="true"></th>
+								<th data-field="id" data-width="20" data-align="left" data-sortable="true">No</th>
+								<th data-visible=false data-field="par_id" data-width="30" data-align="left">par_id</th>
+								<th data-field="par_name" data-width="30" data-align="left" data-sortable="true">Name</th>
+								<th data-field="par_email"data-width="80" data-align="left" data-sortable="true">Email</th>
+								<th data-field="par_mobilenumber"data-width="80" data-align="left" data-sortable="true">Mobile</th>
+							</tr>
+							</thead>
+						</table>
+					</div>
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -146,7 +167,6 @@
 						<input type="text" class="form-control" id="add_mobilenumber" style="width: 200px" maxlength="15" name="mobilenumber" placeholder="MobileNumber">
 					</div>
 					<br>
-					<br>
 					<div class="form-group">
 						<div class="input-group date date col-md-3 " id="add_dob" data-date="" data-date-format="yyyy-mm-dd" data-link-field="add_dob_input" data-link-format="yyyy-mm-dd">
 							<label for="add_dob_input" class="input-group-addon control-label">Date of Birth</label>
@@ -161,6 +181,27 @@
 							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 						</div>
 						<input type="hidden" id="add_doj_input" name="doj" value="" /><br/>
+					</div>
+					<input type="hidden" id="addParId" name="par_id">
+					<div id="addParentDiv">
+						<table id="addParentTable" 
+							data-url={% url 'bbc_dashboard:parent.data' %}
+							data-search="true"           
+							data-show-filter="true"
+							data-striped="true"
+							data-sort="name"
+							data-sort-order="desc">
+						<thead>
+						<tr>
+							<th data-field="state" data-radio="true"></th>
+							<th data-field="id" data-width="20" data-align="left" data-sortable="true">No</th>
+							<th data-visible=false data-field="par_id" data-width="30" data-align="left">par_id</th>
+							<th data-field="par_name" data-width="30" data-align="left" data-sortable="true">Name</th>
+							<th data-field="par_email"data-width="80" data-align="left" data-sortable="true">Email</th>
+							<th data-field="par_mobilenumber"data-width="80" data-align="left" data-sortable="true">Mobile</th>
+						</tr>
+						</thead>
+					</table>
 					</div>
 				</form>
 			</div>
