@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.core.exceptions import ObjectDoesNotExist
 import logging
 from .models import *
 import json
@@ -46,6 +47,7 @@ def modifyStudent(request):
 
 def deleteStudent(request):
     std_id = request.POST['std_id']
+    logging.debug(std_id)
     student = Student.objects.get(std_id=std_id)
     r = student.delete()
     return HttpResponse(json.dumps({"r":"success"}),content_type="application/json")
@@ -157,4 +159,27 @@ def deleteRank(request):
     post = request.POST
     rank = Rank.objects.get(rank_id=post['removeId'])
     rank.delete()
+    return HttpResponse(json.dumps({'r':'success'}),content_type='aaplication/json')
+
+def addAttendance(request):
+    post = request.POST
+    list_o = post['std_id'].split(';')
+    queryList=[]
+    for i,id in enumerate(list_o):
+        try:
+            Attendance.objects.get(std_id=id,class_field_id=post['class_id'],att_date=post['att_date'])
+        except ObjectDoesNotExist:
+            queryList.append(Attendance(
+                std_id=id,
+                class_field_id=post['class_id'],
+                att_date=post['att_date']
+            ))
+    Attendance.objects.bulk_create(queryList)
+    return redirect('/attendance')
+
+
+def deleteAttendance(request):
+    post = request.POST
+    result = Attendance.objects.all().filter(class_field_id=post['class_id'],att_date=post['date'])
+    result.delete()
     return HttpResponse(json.dumps({'r':'success'}),content_type='aaplication/json')

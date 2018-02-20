@@ -13,14 +13,14 @@ import logging
 
 
 class Attendance(models.Model):
-    class_field = models.ForeignKey('Class', models.DO_NOTHING, db_column='CLASS_ID')  # Field name made lowercase. Field renamed because it was a Python reserved word.
-    std = models.ForeignKey('Student', models.DO_NOTHING, db_column='STD_ID')  # Field name made lowercase.
-    att_date = models.DateField(db_column='ATT_DATE')  # Field name made lowercase.
+    class_field = models.ForeignKey('Class', models.DO_NOTHING, db_column='ATT_CLASS', primary_key=True)  # Field name made lowercase. Field renamed because it was a Python reserved word.
+    std = models.ForeignKey('Student', models.CASCADE, db_column='ATT_STD', primary_key=True)  # Field name made lowercase.
+    att_date = models.CharField(db_column='ATT_DATE',max_length=45)  # Field name made lowercase.
 
     class Meta:
         managed = True
         db_table = 'attendance'
-        unique_together = (('class_field', 'std'),)
+        unique_together = (('class_field', 'std','att_date'),)
 
     def as_dict(self):
         return {
@@ -66,7 +66,7 @@ class DjangoMigrations(models.Model):
 
 class Fees(models.Model):
     fees_id = models.AutoField(db_column='FEES_ID', primary_key=True)  # Field name made lowercase.
-    std = models.ForeignKey('Student', models.DO_NOTHING, db_column='STD_ID')  # Field name made lowercase.
+    std = models.ForeignKey('Student', models.CASCADE, db_column='STD_ID')  # Field name made lowercase.
     fees_type = models.CharField(db_column='FEES_TYPE', max_length=45)  # Field name made lowercase.
     fees_date = models.CharField(db_column='FEES_DATE', max_length=45)  # Field name made lowercase.
     fees_amount = models.IntegerField(db_column='FEES_AMOUNT')  # Field name made lowercase.
@@ -123,7 +123,7 @@ class Parent(models.Model):
 
 class Rank(models.Model):
     rank_id = models.AutoField(db_column='RANK_ID', primary_key=True)  # Field name made lowercase.
-    std = models.ForeignKey('Student', models.DO_NOTHING, db_column='STD_ID')  # Field name made lowercase.
+    std = models.ForeignKey('Student', models.CASCADE, db_column='STD_ID')  # Field name made lowercase.
     rank_color = models.CharField(db_column='RANK_COLOR', max_length=45)  # Field name made lowercase.
     rank_date = models.CharField(db_column='RANK_DATE',max_length=45)  # Field name made lowercase.
 
@@ -142,7 +142,7 @@ class Rank(models.Model):
 
 class Student(models.Model):
     std_id = models.AutoField(db_column='STD_ID', primary_key=True)  # Field name made lowercase.
-    par = models.ForeignKey(Parent, models.DO_NOTHING, db_column='PAR_ID', blank=True, null=True)  # Field name made lowercase.
+    par = models.ForeignKey(Parent, models.CASCADE, db_column='PAR_ID', blank=True, null=True)  # Field name made lowercase.
     std_name = models.CharField(db_column='STD_NAME', max_length=45, blank=True, null=True)  # Field name made lowercase.
     std_dob = models.CharField(db_column='STD_DOB', max_length=45, blank=True, null=True)  # Field name made lowercase.
     std_dojoin = models.CharField(db_column='STD_DOJOIN', max_length=45, blank=True, null=True)  # Field name made lowercase.

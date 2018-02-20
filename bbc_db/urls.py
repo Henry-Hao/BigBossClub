@@ -19,5 +19,7 @@ urlpatterns = [
     url(r'^addFees$',views.addFees,name='addFees'),
     url(r'^deleteFees$',views.deleteFees,name='deleteFees'),
     url(r'^addRank$',views.addRank,name='addRank'),
-    url(r'^deleteRank$',views.deleteRank,name='deleteRank')
+    url(r'^deleteRank$',views.deleteRank,name='deleteRank'),
+    url(r'^addAttendance$',views.addAttendance,name='addAttendance'),
+    url(r'^deteleAttendance$',views.deleteAttendance,name='deleteAttendance')
 ]

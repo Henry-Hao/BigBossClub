@@ -1,0 +1,235 @@
+
+	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	<html>
+	<head>
+	{% load staticfiles %}
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Search</title>
+
+	<link rel="stylesheet" href="{% static 'lib/bootstrap.min.css' %}" >
+	<script src="{% static 'lib/jquery-2.1.4.min.js' %}"></script>
+	<script src="{% static 'lib/bootstrap.min.js' %}"></script>
+
+	<link rel="stylesheet" href="{% static 'bbc_dashboard/css/index.css' %}" >
+	<link href="{% static 'lib/bootstrap-table.css' %}" rel="stylesheet">
+	<link href="{% static 'lib/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+	
+	<script src="{% static 'lib/js.cookie.js' %}"></script>
+	<script src="{% static 'bbc_dashboard/js/util.js' %}"></script>
+
+	<script src="{% static 'bbc_dashboard/js/attendance.js' %}"></script>
+	<script src="{% static 'lib/bootstrap-table.js' %}"></script>
+	<script src="{% static 'lib/bootstrap-datetimepicker.js' %}"></script>
+	
+	</head>
+	<body>
+	<div class="container-fluid">
+		<div id="toolbar" class="btn-group">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dateModal" id='btn_add'>ADD</button>
+		</div>
+		<table id="attendanceTable" 
+				data-url={% url 'bbc_dashboard:attendance.data' %}
+				data-show-toggle="true"
+				data-search="true"           
+				data-show-filter="true"
+				data-striped="true"
+				data-sort="name"
+				data-toolbar="#toolbar"
+				data-sort-order="desc">
+			<thead>
+			<tr>
+				<th data-field="id" data-width="20" data-align="left" data-sortable="true">No</th>
+				<th data-visible=false data-field="class_id" data-width="30" data-align="left"></th>
+				<th data-field="class_name" data-width="30" data-align="left">Class Name</th>
+				<th data-field="class_day" data-width="25" data-align="left" data-sortable="true">Day of Week</th>
+				<th data-field="class_time" data-width="25" data-align="left" data-sortable="true">Time</th>
+				<th data-field="class_level" data-width="25" data-align="left" data-sortable="true">Level</th>
+				<th data-field="date" data-width="25" data-align="left" data-sortable="true">Date of Attendance</th>
+				<th data-field="detail" data-width="20" data-formatter="detailFormatter" data-events="detailEvents">Detail</th>
+				<th data-field="remove" data-width="20" data-formatter="removeFormatter" data-events="removeEvents">Remove</th>
+			</tr>
+			</thead>
+		</table>
+	</div>
+
+	<div class="modal fade" id="dateModal" tabindex="-1" role="dialog" 
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+				aria-hidden="true">x
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					Select a Date
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-group" role="form">
+					{% csrf_token %} 
+					<div class="form-group">
+							<div class="input-group date date col-md-3 " id="time" data-date="" data-date-format="yyyy-mm-dd" data-link-field="time_input" data-link-format="yyyy-mm-dd">
+								<label for="time_input" class="input-group-addon control-label">Date</label>
+								<input class="form-control" size="8" type="text" value="" readonly>
+								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							</div>
+							<input type="hidden" id="time_input" name="date" value="" /><br/>
+						</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+				data-dismiss="modal">close
+				</button>
+				<button type="button" class="btn btn-primary" id='DateSelectBtn' data-dismiss="modal" data-toggle="modal" data-target="#addModal">
+				add
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" 
+	aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:scroll">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+				aria-hidden="true">x
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					Gnerate a new rank record
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-group" role="form" id="addAttendanceForm" method="POST" action="{% url 'bbc_db:addAttendance' %}">
+					{% csrf_token %} 
+					<table id="addClassTable" 
+							data-url={% url 'bbc_dashboard:class.data' %}
+							data-search="true"           
+							data-show-filter="true"
+							data-striped="true"
+							data-sort="name"
+							data-sort-order="desc">
+						<thead>
+						<tr>
+							<th data-field="state" data-radio="true"></th>
+							<th data-field="id" data-width="20" data-align="left" data-sortable="true">No</th>
+							<th data-visible=false data-field="class_id" data-width="30" data-align="left">std_id</th>
+							<th data-field="class_name" data-width="30" data-align="left" data-sortable="true">Name</th>
+							<th data-field="class_level"data-width="80" data-align="left" data-sortable="true">Level</th>
+							<th data-field="class_day"data-width="80" data-align="left" data-sortable="true">Day</th>
+							<th data-field="class_time"data-width="80" data-align="left" data-sortable="true">Time</th>
+						</tr>
+						</thead>
+					</table>
+					<br>
+					<input type="text" class="form-control" readonly id="att_date" name="att_date">
+					<input type="hidden" id="class_id" name="class_id"/> 
+					<input type="hidden" id="std_id" name="std_id"/> 
+					<div id="addStudentDiv">
+						<table id="addStudentTable" 
+							data-url={% url 'bbc_dashboard:student.data' %}
+							data-search="true"           
+							data-show-filter="true"
+							data-striped="true"
+							data-sort="name"
+							data-sort-order="desc">
+						<thead>
+						<tr>
+							<th data-field="state" data-checkbox="true"></th>
+							<th data-field="id" data-width="20" data-align="left" data-sortable="true">No</th>
+							<th data-visible=false data-field="std_id" data-width="30" data-align="left">std_id</th>
+							<th data-field="std_name" data-width="30" data-align="left" data-sortable="true">Name</th>
+							<th data-field="std_email"data-width="80" data-align="left" data-sortable="true">Email</th>
+							<th data-field="std_mobilenumber"data-width="80" data-align="left" data-sortable="true">Mobile</th>
+						</tr>
+						</thead>
+					</table>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+				data-dismiss="modal">close
+				</button>
+				<button type="button" class="btn btn-primary" id='sendConfirm' data-dismiss="modal" data-toggle="modal" data-target="#confirmModal">
+				add
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" 
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+				aria-hidden="true">x
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					Check details
+				</h4>
+			</div>
+			<div class="modal-body">
+					<table id="detailTable" 
+					data-show-toggle="true"
+					data-search="true"           
+					data-show-filter="true"
+					data-striped="true"
+					data-sort="name"
+					data-sort-order="desc">
+				<thead>
+				<tr>
+					<th data-field="id" data-width="20" data-align="left" data-sortable="true">No</th>
+					<th data-visible=false data-field="class_id" data-width="30" data-align="left"></th>
+					<th data-visible=false data-field="std_id" data-width="30" data-align="left"></th>
+					<th data-field="std_name" data-width="25" data-align="left" data-sortable="true">Name</th>
+					<th data-field="std_dob" data-width="25" data-align="left" data-sortable="true">Day of Birth</th>
+					<th data-field="std_dojoin" data-width="25" data-align="left" data-sortable="true">Day of Joining</th>
+					<th data-field="std_email" data-width="25" data-align="left" data-sortable="true">Email</th>
+				</tr>
+				</thead>
+			</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+				data-dismiss="modal">close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" 
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" 
+				aria-hidden="true">x
+			</button>
+			<h4 class="modal-title" id="myModalLabel">
+				Confirmation
+			</h4>
+			</div>
+			<div class="modal-body">
+			Please make sure everything is correct!
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-default" 
+				data-dismiss="modal">Close
+			</button>
+			<button type="button" class="btn btn-primary" id='addAttendanceConfirm' data-dismiss="modal">
+				Confirm
+			</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+</body>
+</html>

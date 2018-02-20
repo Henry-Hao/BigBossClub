@@ -83,6 +83,14 @@ def classdata(request):
     obj = json.dumps(obj)
     return HttpResponse(obj,content_type="application/json")
 
+def classdatabydate(request,date):
+    logging.debug(date)
+    objects = Class.objects.all().filter(class_day=date)
+    obj = [dict({"id":i+1},**(objects[i]).as_dict()) for i in range(len(objects))]
+    obj = json.dumps(obj)
+    return HttpResponse(obj,content_type="application/json")
+
+
 def parent(request):
     return render(request, 'bbc_dashboard/parent.html')
 
@@ -127,3 +135,32 @@ def rankdata(request):
         x['std'] = std.std_name
     obj = json.dumps(obj)
     return HttpResponse(obj,content_type="application/json")
+
+def attendance(request):
+    return render(request,'bbc_dashboard/attendance.html')
+
+def attendancedata(request):
+    from django.db import connection
+    with connection.cursor() as cursor:
+        cursor.execute('SELECT DISTINCT ATT_CLASS,ATT_DATE FROM ATTENDANCE')
+        r_list= cursor.fetchall()
+    
+    objects = [0]*len(r_list)
+    for index,value in enumerate(r_list):
+        class_id = value[0]
+        date = value[1]
+        class_obj = Class.objects.get(class_id=class_id)
+        objects[index] = class_obj.as_dict()
+        objects[index]['id'] = index+1
+        objects[index]['date'] = date
+    return HttpResponse(json.dumps(objects),content_type="application/json")
+
+def classdatadetail(request,class_id,date):
+    att_list = Attendance.objects.all().filter(class_field_id=class_id,att_date=date)
+    objects = [0]*len(att_list)
+    for index, value in enumerate(att_list):
+        std_id = value.std_id
+        std_object = Student.objects.get(std_id=std_id)
+        objects[index] = dict({"id":index+1},**(std_object).as_dict())
+    
+    return HttpResponse(json.dumps(objects),content_type="application/json") 
