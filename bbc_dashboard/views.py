@@ -113,3 +113,17 @@ def feesdata(request):
         x['std'] = std.std_name
     obj = json.dumps(obj)
     return HttpResponse(obj,content_type='application/json')
+
+
+def rank(request):
+    return render(request,'bbc_dashboard/rank.html')
+
+def rankdata(request):
+    objects = Rank.objects.all()
+    obj = [dict({"id":i+1},**(objects[i]).as_dict()) for i in range(len(objects))]
+    for x in obj:
+        std_id = x['std_id']
+        std = Student.objects.get(std_id=std_id)
+        x['std'] = std.std_name
+    obj = json.dumps(obj)
+    return HttpResponse(obj,content_type="application/json")

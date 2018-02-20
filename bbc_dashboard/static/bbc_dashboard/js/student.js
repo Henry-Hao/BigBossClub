@@ -69,10 +69,11 @@ $(document).ready(function(){
 		var name = $("#add_name").val().trim();
 		var email = $("#add_email").val().trim();
 		var mobilenumber = $("#add_mobilenumber").val().trim();
+		var add = $("#add_add").val().trim();
 		var dob = $("#add_dob_input").val();
 		var doj = $("#add_doj_input").val();
 		
-		if(name == "" || email == "" || mobilenumber == ""){
+		if(name == "" || email == "" || mobilenumber == "" || add == ""){
 			alert("All fields should be filled!");
 			return;
 		}
@@ -95,8 +96,9 @@ $(document).ready(function(){
 		var mobilenumber = $("#modify_mobilenumber").val().trim();
 		var dob = $("#modify_dob_input").val();
 		var doj = $("#modify_doj_input").val();
+		var add = $("#modify_add").val();
 		
-		if(name == "" || email == "" || mobilenumber == ""){
+		if(name == "" || email == "" || mobilenumber == "" || add == ""){
 			alert("All fields should be filled!");
 			return;
 		}
@@ -136,6 +138,7 @@ window.modifyEvents = {
 		$("#modify_name").val(row['std_name']);
 		$("#modify_email").val(row['std_email']);
 		$("#modify_mobilenumber").val(row['std_mobilenumber']);
+		$("#modify_add").val(row['std_add']);
 		$("#modify_dob input").val(row['std_dob']);
 		$("#modify_doj input").val(row['std_dojoin']);
 		$("#modify_dob_input").val(row['std_dob']);

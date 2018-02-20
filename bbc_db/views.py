@@ -21,6 +21,12 @@ def addStudent(request):
     if parid != 'null':
         student.par_id = parid
     student.save()
+    rank = Rank(
+        std_id=student.std_id,
+        rank_color="White",
+        rank_date=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    )
+    rank.save()
     return render(request,'bbc_dashboard/student.html')
 
 def modifyStudent(request):
@@ -135,4 +141,20 @@ def deleteFees(request):
     post = request.POST
     fees = Fees.objects.get(fees_id=post['removeId'])
     fees.delete()
+    return HttpResponse(json.dumps({'r':'success'}),content_type='aaplication/json')
+
+def addRank(request):
+    post = request.POST
+    rank = Rank(
+        std_id=post['std_id'],
+        rank_color=post['color'],
+        rank_date=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    )
+    rank.save()
+    return redirect('/rank')
+
+def deleteRank(request):
+    post = request.POST
+    rank = Rank.objects.get(rank_id=post['removeId'])
+    rank.delete()
     return HttpResponse(json.dumps({'r':'success'}),content_type='aaplication/json')

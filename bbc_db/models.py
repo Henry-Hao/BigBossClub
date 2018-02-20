@@ -125,7 +125,7 @@ class Rank(models.Model):
     rank_id = models.AutoField(db_column='RANK_ID', primary_key=True)  # Field name made lowercase.
     std = models.ForeignKey('Student', models.DO_NOTHING, db_column='STD_ID')  # Field name made lowercase.
     rank_color = models.CharField(db_column='RANK_COLOR', max_length=45)  # Field name made lowercase.
-    rank_date = models.DateField(db_column='RANK_DATE')  # Field name made lowercase.
+    rank_date = models.CharField(db_column='RANK_DATE',max_length=45)  # Field name made lowercase.
 
     class Meta:
         managed = True

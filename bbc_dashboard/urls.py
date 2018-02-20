@@ -16,5 +16,7 @@ urlpatterns = [
     url(r'^instructor$',views.instructor,name='instructor'),
     url(r'^instructor/data$',views.instructordata,name='instructor.data'),
     url(r'^fees$',views.fees,name='fees'),
-    url(r'^fees/data$',views.feesdata,name='fees.data')
+    url(r'^fees/data$',views.feesdata,name='fees.data'),
+    url(r'^rank$',views.rank,name='rank'),
+    url(r'^rank/data$',views.rankdata,name='rank.data')
 ]
