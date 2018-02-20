@@ -1,0 +1,144 @@
+
+	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	<html>
+	<head>
+	{% load staticfiles %}
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Search</title>
+
+	<link rel="stylesheet" href="{% static 'lib/bootstrap.min.css' %}" >
+	<script src="{% static 'lib/jquery-2.1.4.min.js' %}"></script>
+	<script src="{% static 'lib/bootstrap.min.js' %}"></script>
+
+	<link rel="stylesheet" href="{% static 'bbc_dashboard/css/index.css' %}" >
+	<link href="{% static 'lib/bootstrap-table.css' %}" rel="stylesheet">
+	<link href="{% static 'lib/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+	
+	<script src="{% static 'lib/js.cookie.js' %}"></script>
+	<script src="{% static 'bbc_dashboard/js/util.js' %}"></script>
+
+	<script src="{% static 'bbc_dashboard/js/fees.js' %}"></script>
+	<script src="{% static 'lib/bootstrap-table.js' %}"></script>
+	<script src="{% static 'lib/bootstrap-datetimepicker.js' %}"></script>
+	
+	</head>
+	<body>
+	<div class="container-fluid">
+		<div id="toolbar" class="btn-group">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal" id='btn_add'>ADD</button>
+		</div>
+		<table id="feesTable" 
+				data-url={% url 'bbc_dashboard:fees.data' %}
+				data-show-toggle="true"
+				data-search="true"           
+				data-show-filter="true"
+				data-striped="true"
+				data-sort="name"
+				data-toolbar="#toolbar"
+				data-sort-order="desc">
+			<thead>
+			<tr>
+				<th data-field="id" data-width="20" data-align="left" data-sortable="true">No</th>
+				<th data-visible=false data-field="fees_id" data-width="30" data-align="left">Id</th>
+				<th data-field="std" data-width="30" data-align="left">Student</th>
+				<th data-field="fees_type" data-width="25" data-align="left" data-sortable="true">Type</th>
+				<th data-field="fees_amount" data-width="25" data-align="left" data-sortable="true">Amount</th>
+				<th data-field="fees_date"data-width="80" data-align="left" data-sortable="true">Date</th>
+				<th data-field="remove" data-width="20" data-formatter="removeFormatter" data-events="removeEvents">Remove</th>
+			</tr>
+			</thead>
+		</table>
+	</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" 
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" 
+				aria-hidden="true">x
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					Gnerate a new fees record
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-group" role="form" id="addFeesForm" method="POST" action="{% url 'bbc_db:addFees' %}">
+					{% csrf_token %} 
+					<div class="input-group">
+						<span class="input-group-addon">Type</span>
+						<input type="text" class="form-control comp_sponsor" style="width: 200px" id="add_type" name="type"  placeholder="type">
+					</div>
+					<br>
+					<div class="input-group" style="width:250px">
+						<span class="input-group-addon">Amount</span>
+						<input type="number" class="form-control" id="add_amount" name="amount"  placeholder="amount">
+						<span class="input-group-addon">CAD</span>
+					</div>
+					<br>
+					<input type="hidden" id="addDate" name="date">
+					<input type="hidden" id="addStdId" name="std_id">
+					<div id="addStudentDiv">
+						<table id="addStudentTable" 
+							data-url={% url 'bbc_dashboard:student.data' %}
+							data-search="true"           
+							data-show-filter="true"
+							data-striped="true"
+							data-sort="name"
+							data-sort-order="desc">
+						<thead>
+						<tr>
+							<th data-field="state" data-radio="true"></th>
+							<th data-field="id" data-width="20" data-align="left" data-sortable="true">No</th>
+							<th data-visible=false data-field="std_id" data-width="30" data-align="left">std_id</th>
+							<th data-field="std_name" data-width="30" data-align="left" data-sortable="true">Name</th>
+							<th data-field="std_email"data-width="80" data-align="left" data-sortable="true">Email</th>
+							<th data-field="std_mobilenumber"data-width="80" data-align="left" data-sortable="true">Mobile</th>
+						</tr>
+						</thead>
+					</table>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+				data-dismiss="modal">close
+				</button>
+				<button type="button" class="btn btn-primary" id='sendConfirm' data-dismiss="modal" data-toggle="modal" data-target="#confirmModal">
+				add
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" 
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" 
+				aria-hidden="true">x
+			</button>
+			<h4 class="modal-title" id="myModalLabel">
+				Confirmation
+			</h4>
+			</div>
+			<div class="modal-body">
+			Please make sure everything is correct!
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-default" 
+				data-dismiss="modal">Close
+			</button>
+			<button type="button" class="btn btn-primary" id='addFeesConfirm' data-dismiss="modal">
+				Confirm
+			</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+</body>
+</html>

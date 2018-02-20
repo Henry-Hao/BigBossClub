@@ -100,3 +100,16 @@ def instructordata(request):
     obj = [dict({"id":i+1},**(objects[i]).as_dict()) for i in range(len(objects))]
     obj = json.dumps(obj)
     return HttpResponse(obj,content_type='application/json')
+
+def fees(request):
+    return render(request,'bbc_dashboard/fees.html')
+
+def feesdata(request):
+    objects = Fees.objects.all()
+    obj = [dict({"id":i+1},**(objects[i]).as_dict()) for i in range(len(objects))]
+    for x in obj:
+        std_id = x['std_id']
+        std = Student.objects.get(std_id=std_id)
+        x['std'] = std.std_name
+    obj = json.dumps(obj)
+    return HttpResponse(obj,content_type='application/json')

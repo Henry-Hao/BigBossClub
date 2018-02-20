@@ -15,5 +15,7 @@ urlpatterns = [
     url(r'^deleteParent$',views.deleteParent,name='deleteParent'),
     url(r'^addInstructor$',views.addInstructor,name='addInstructor'),
     url(r'^modifyInstructor$',views.modifyInstructor,name='modifyInstructor'),
-    url(r'^deleteInstructor$',views.deleteInstructor,name='deleteInstructor')
+    url(r'^deleteInstructor$',views.deleteInstructor,name='deleteInstructor'),
+    url(r'^addFees$',views.addFees,name='addFees'),
+    url(r'^deleteFees$',views.deleteFees,name='deleteFees')
 ]

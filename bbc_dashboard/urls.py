@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^parent/data$', views.parentdata, name="parent.data"),
     url(r'^instructor$',views.instructor,name='instructor'),
     url(r'^instructor/data$',views.instructordata,name='instructor.data'),
+    url(r'^fees$',views.fees,name='fees'),
+    url(r'^fees/data$',views.feesdata,name='fees.data')
 ]

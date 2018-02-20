@@ -31,3 +31,4 @@ function removeFormatter(value, row, index) {
         '</a>'
     ].join('');
 }
+

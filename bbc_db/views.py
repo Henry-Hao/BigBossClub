@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 import logging
 from .models import *
 import json
+from datetime import datetime
 
 # Create your views here.
 def addStudent(request):
@@ -118,3 +119,20 @@ def deleteInstructor(request):
     instructor = Instructor.objects.get(inst_id=request.POST['removeId'])
     instructor.delete()
     return HttpResponse(json.dumps({'r':'success'}),content_type='application/json')
+
+def addFees(request):
+    post = request.POST
+    fees = Fees(
+        std_id=post['std_id'],
+        fees_type=post['type'],
+        fees_amount=post['amount'],
+        fees_date=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    )
+    fees.save()
+    return redirect('/fees')
+
+def deleteFees(request):
+    post = request.POST
+    fees = Fees.objects.get(fees_id=post['removeId'])
+    fees.delete()
+    return HttpResponse(json.dumps({'r':'success'}),content_type='aaplication/json')

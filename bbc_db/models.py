@@ -68,7 +68,7 @@ class Fees(models.Model):
     fees_id = models.AutoField(db_column='FEES_ID', primary_key=True)  # Field name made lowercase.
     std = models.ForeignKey('Student', models.DO_NOTHING, db_column='STD_ID')  # Field name made lowercase.
     fees_type = models.CharField(db_column='FEES_TYPE', max_length=45)  # Field name made lowercase.
-    fees_date = models.DateField(db_column='FEES_DATE')  # Field name made lowercase.
+    fees_date = models.CharField(db_column='FEES_DATE', max_length=45)  # Field name made lowercase.
     fees_amount = models.IntegerField(db_column='FEES_AMOUNT')  # Field name made lowercase.
 
     class Meta:
