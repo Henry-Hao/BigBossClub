@@ -251,3 +251,38 @@ function initParTable(e,id){
 	}
 }
 
+function parentFormatter(value,row,index){
+	return ['<a class="parent_name" href="#" style="text-decoration:none" data-toggle="modal" data-target="#modifyParentModal" >',
+			row['std_parent'],
+			'</a>'].join("");
+}
+
+window.parentEvents = {
+	'click .parent_name':function(e,value,row,index){
+		$.ajax({
+			url:"/findParentById",
+			data:{
+				"par_id":row['par_id'],
+			},
+			dataType:'json',
+			method:'POST',
+			success:function(result){
+				$("#modify_parent_id").val(result.par_id);
+				$("#modify_parent_name").val(result.par_name);
+				$("#modify_parent_email").val(result.par_email);
+				$("#modify_parent_mobilenumber").val(result.par_mobilenumber);
+
+				$("#modifyParentConfirm").click(function(){
+					if($("#modify_parent_name").val().trim() == "" || $("#modify_parent_email").val().trim() == "" || $("#modify_parent_mobilenumber").val().trim() == ""){
+						alert("All fields must be filed");
+						return;
+					}
+					
+					$("#modifyParentForm").submit();
+					location.href = "/student"
+				})
+			}
+		})
+		
+	}
+}

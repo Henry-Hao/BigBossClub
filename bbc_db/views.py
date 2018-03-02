@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect,get_object_or_404,get_list_or_404
 from django.core.exceptions import ObjectDoesNotExist
 import logging
 from .models import *
@@ -13,11 +13,13 @@ def addStudent(request):
     dob = request.POST['dob']
     doj = request.POST['doj']
     parid = request.POST['par_id']
+    add = request.POST['address']
     student = Student(
         std_name=name,
         std_email=email,
         std_mobilenumber=mobilenumber,
         std_dob=dob,
+        std_add=add,
         std_dojoin=doj)
     if parid != 'null':
         student.par_id = parid
@@ -38,6 +40,7 @@ def modifyStudent(request):
     student.std_mobilenumber = request.POST['mobilenumber']
     student.std_dob = request.POST['dob']
     student.std_dojoin = request.POST['doj']
+    student.std_add = request.POST['address']
     if request.POST['par_id'] != 'null':
         student.par_id = request.POST['par_id']
     else:
@@ -182,4 +185,19 @@ def deleteAttendance(request):
     post = request.POST
     result = Attendance.objects.all().filter(class_field_id=post['class_id'],att_date=post['date'])
     result.delete()
-    return HttpResponse(json.dumps({'r':'success'}),content_type='aaplication/json')
+    return HttpResponse(json.dumps({'r':'success'}),content_type='application/json')
+
+def findParentById(request):
+    post = request.POST
+    parent = get_object_or_404(Parent,par_id=post['par_id'])
+    return HttpResponse(json.dumps(parent.as_dict()),content_type="application/json")
+
+
+def findStudentByParId(request,par_id):
+    from django.http.response import Http404
+    try:
+        objects = get_list_or_404(Student,par_id=par_id)
+        obj = [dict({"id":i+1},**(objects[i]).as_dict()) for i in range(len(objects))]
+    except Http404:
+        obj = None
+    return HttpResponse(json.dumps(obj),content_type="application/json")

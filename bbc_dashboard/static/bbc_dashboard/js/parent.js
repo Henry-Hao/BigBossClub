@@ -51,3 +51,26 @@ window.removeEvents = {
         }
     }
 }
+
+function detailFormatter(value,row,index){
+    return [
+		'<a class="detail" data-dismiss="modal" data-toggle="modal" data-target="#detailModal" style="text-decoration:none; text-align:center" href=# title="Detail">',
+			'<i class="glyphicon glyphicon-list-alt"></i>',
+		'</a>'
+	].join('');
+}
+
+window.detailEvents = {
+    'click .detail':function(e,value,row,index){
+        if(typeof($table3) != 'undefined')
+            $table3.bootstrapTable('destroy');
+        $table3 = $("#detailTable").bootstrapTable({
+            url:"findStudentByParId/id="+row['par_id'],
+            striped:true,
+            pagination:true,
+            height:300,
+            width:400,
+            pageSize:12
+        })
+    }
+}

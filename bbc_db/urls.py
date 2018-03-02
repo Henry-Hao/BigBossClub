@@ -21,5 +21,7 @@ urlpatterns = [
     url(r'^addRank$',views.addRank,name='addRank'),
     url(r'^deleteRank$',views.deleteRank,name='deleteRank'),
     url(r'^addAttendance$',views.addAttendance,name='addAttendance'),
-    url(r'^deteleAttendance$',views.deleteAttendance,name='deleteAttendance')
+    url(r'^deteleAttendance$',views.deleteAttendance,name='deleteAttendance'),
+    url(r'^findParentById$',views.findParentById,name='findParentById'),
+    url(r'^findStudentByParId/id=(?P<par_id>.*)?.*$',views.findStudentByParId,name='findStudentByParId'),
 ]

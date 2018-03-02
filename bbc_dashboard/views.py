@@ -68,6 +68,13 @@ def student(request):
 def studentdata(request):
     objects = Student.objects.all()
     obj = [dict({'id':i+1},**(objects[i]).as_dict()) for i in range(len(objects))]
+    for i in range(len(obj)):
+        par_id = obj[i]['par_id']
+        try:
+            name = Parent.objects.get(par_id=par_id).par_name
+        except ObjectDoesNotExist:
+            name = None
+        obj[i]['std_parent'] = name
     obj = json.dumps(obj)
     return HttpResponse(obj,content_type="applicetion/json")
 
