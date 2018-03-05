@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap.min.css' %}">
+    <script src="{% static 'lib/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'lib/bootstrap.min.js' %}"></script>
+    <script src="{% static 'lib/moment.js' %}"></script>
+    <script src="{% static 'lib/Chart.js' %}"></script>
+    
+    <script src="{% static 'lib/js.cookie.js' %}"></script>
+    <script src="{% static 'bbc_dashboard/js/util.js' %}"></script>
+    <script src="{% static 'bbc_dashboard/js/stat.js' %}"></script>
+    <style>
+        .row{
+            margin:50px -15px 20px -15px
+        }
+        .box{
+            margin-left:10px;
+            margin-right:10px;
+            height:400px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <button class="btn btn-primary" id="studentBtn">Student</button>
+            <button class="btn btn-primary" id="rankBtn">Rank</button>
+            <button class="btn btn-primary" id="attendanceBtn">Attendance</button>
+        </div>
+        <div id="studentGroup" class="group">
+            <div class="row">
+                <div class="col-xs-12 box" >
+                    <canvas id="studentChart1"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 box">
+                    <canvas id="studentChart2"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="rankGroup" class="group">
+            <div class="row">
+                <div class="col-xs-12 box" >
+                    <canvas id="rankChart1"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="attendanceGroup" class="group">
+                <div class="row">
+                    <div class="col-xs-12 box" >
+                        <canvas id="attChart1"></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-xs-12 box" >
+                            <canvas id="attChart2"></canvas>
+                        </div>
+                    </div>
+            </div>
+        
+        
+    </div>
+    
+</body>
+</html>

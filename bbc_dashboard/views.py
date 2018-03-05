@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import MultipleObjectsReturned
 from bbc_db.models import *
+from django.db import connection
 import json, logging
 
 # Create your views here.
@@ -171,3 +172,69 @@ def classdatadetail(request,class_id,date):
         objects[index] = dict({"id":index+1},**(std_object).as_dict())
     
     return HttpResponse(json.dumps(objects),content_type="application/json") 
+
+def stat(request):
+    return render(request,'bbc_dashboard/stat.html')
+
+def studentStat(request):
+    dobList = Student.objects.values("std_dob")
+    data = []
+    res = [0,0]
+    for x in dobList:
+        if dayToToday(x['std_dob']) >= 18*365:
+            res[0] += 1
+        else:
+            res[1] += 1
+    data.append(res)
+
+    dojoinList = Student.objects.values("std_dojoin")
+    dd = {}
+    res = []
+    for x in dojoinList:
+        t = x['std_dojoin']
+        t = t[:t.rfind('-')]
+        dd[t] = dd.get(t,0) + 1
+    dd = dd.items()
+    res = [{"t":x[0],"y":x[1]} for x in dd]
+    data.append(res)
+    return HttpResponse(json.dumps(data),content_type="application/json")
+
+
+def rankStat(request):
+    rankList = Rank.objects.values("rank_color")
+    dd = {}
+    data = []
+    for x in rankList:
+        t = x['rank_color']
+        dd[t] = dd.get(t,0) + 1
+    res = [x[1] for x in dd.items()]
+    data.append({"data":res,"labels":list(dd.keys())})
+    return HttpResponse(json.dumps(data),content_type="application/json")
+
+ 
+def attendanceStat(request):
+    data = []
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT CLASS_NAME, avg(times) FROM (select COUNT(ATT_STD) as times,CLASS_NAME from bbc.attendance a,bbc.class b where a.ATT_CLASS = b.CLASS_ID group by ATT_CLASS,ATT_DATE) b group by b.CLASS_name;")
+        row = cursor.fetchall()
+        res = {}
+        res['data'] = [{"x":x[0],"y":float(x[1])} for x in row]
+        res['labels'] = [x[0] for x in row]
+        data.append(res)
+
+    with connection.cursor() as cursor:
+        cursor.execute("select count(class_id), class_level, class_time from bbc.attendance a, bbc.class b where a.ATT_CLASS = b.CLASS_ID group by CLASS_LEVEL,CLASS_TIME;")
+        row = cursor.fetchall()
+        res = {}
+        res['data'] = [{"x":"2017-01-01 "+x[2],"y":x[1],"r":x[0]} for x in row]
+        res['labels'] = [x[1] for x in row]
+        data.append(res)
+
+    return HttpResponse(json.dumps(data),content_type="application/json")
+
+
+def dayToToday(time1):
+    import datetime
+    today = datetime.datetime.combine(datetime.date.today(),datetime.time())
+    time1 = datetime.datetime.strptime(time1,"%Y-%m-%d")
+    return (today - time1).days

@@ -150,12 +150,15 @@ def deleteFees(request):
 
 def addRank(request):
     post = request.POST
-    rank = Rank(
-        std_id=post['std_id'],
-        rank_color=post['color'],
-        rank_date=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    )
-    rank.save()
+    try:
+        r = Rank.objects.get(std_id=post['std_id'],rank_color=post['color'])
+    except ObjectDoesNotExist:
+        rank = Rank(
+            std_id=post['std_id'],
+            rank_color=post['color'],
+            rank_date=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        )
+        rank.save()
     return redirect('/rank')
 
 def deleteRank(request):

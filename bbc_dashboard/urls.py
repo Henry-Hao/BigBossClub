@@ -22,5 +22,9 @@ urlpatterns = [
     url(r'^rank$',views.rank,name='rank'),
     url(r'^rank/data$',views.rankdata,name='rank.data'),
     url(r'^attendance$',views.attendance,name='attendance'),
-    url(r'^attendancedata$',views.attendancedata,name='attendance.data')
+    url(r'^attendancedata$',views.attendancedata,name='attendance.data'),
+    url(r'^stat$',views.stat,name="stat"),
+    url(r'^studentStatUrl$',views.studentStat,name='stat.student'),
+    url(r'^rankStatUrl$',views.rankStat,name='stat.rank'),
+    url(r'^attendanceStatUrl$',views.attendanceStat,name="stat.att")
 ]

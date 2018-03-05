@@ -24,6 +24,9 @@ function navClick(id){
 		case "instructor":
 			$(".myframe").attr("src","instructor");
 			break;
+		case "stat":
+			$(".myframe").attr("src","stat");
+			break;
 		default:
 			break;
 	}
