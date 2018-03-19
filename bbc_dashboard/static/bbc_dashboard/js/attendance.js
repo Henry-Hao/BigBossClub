@@ -38,7 +38,7 @@ $(document).ready(function(){
         $std_id = new Set();
         $class_id = null;
         year = $time.substring(0,4);
-        month = $time.substring(5,7);
+        month = $time.substring(5,7)-1;
         day = $time.substring(8,10);
         dayofweek = map[new Date(year,month,day).getDay()];
         if( typeof($table1) != 'undefined'){

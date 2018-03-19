@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    
     $("#studentBtn").click(function(){
         hideAll();
         $("#studentGroup").show();
@@ -18,6 +19,35 @@ $(document).ready(function(){
     })
           
 })
+
+var fillGapsWithZeroPlugin = {
+    beforeUpdate: function(c) {
+        var timeAxis = c.options.scales.xAxes[0].time;
+        if (!timeAxis || !timeAxis.fillGapsWithZero) return;
+        for (var i=0;i<c.data.datasets.length;i++){
+            var set = c.data.datasets[i];
+            var min, max, hash = {};
+            for (var j=0;j<set.data.length;j++){
+                var val = moment(set.data[j].t, timeAxis.parser);
+                if (!min || min.diff(val)>0)
+                    min = val;
+                if (!max || max.diff(val)<0)
+                    max = val;
+                hash[set.data[j].t] = 1;
+            }
+            for (var val = min; max.diff(val)>0; val.add(1, timeAxis.minUnit)){
+                var d = val.format(timeAxis.parser);
+                if (!hash[d])
+                    set.data.push({t:d, y:0});
+            }
+            set.data.sort(function(a,b){
+                return a.t < b.t?-1:1;
+            });
+        }
+    }
+}
+
+
 
 function studentGraph(){
     $.ajax({
@@ -70,6 +100,13 @@ function studentGraph(){
         
             });
             // line graph
+            Chart.pluginService.register(fillGapsWithZeroPlugin);
+            maxV = 0;
+            for(x in result[1]){
+                if (result[1][x]['y'] > maxV)
+                maxV = result[1][x]['y']
+            }
+
             var myChart2 = new Chart($("#studentChart2"),{
                 type: 'line',
                 data: {
@@ -84,6 +121,7 @@ function studentGraph(){
                     }]
                 },
                 options:{
+                    spanGaps:true,
                     elements: {
                         line: {
                             tension: 0, // disables bezier curves
@@ -99,19 +137,25 @@ function studentGraph(){
                         xAxes:[{
                             type:"time",
                             time:{
-                                unit:"month"
+                                unit:"month",
+                                fillGapsWithZero:true,
+                                minUnit:"month",
+                                parser:"YYYY-MM"
                             },
+                            bounds:"ticks",
                             position:"bottom",
                             display:"true",
                             scaleLabel: {
                                 display: true,
                                 labelString: 'Month'
-                            },
+                            }
                         }],
                         yAxes: [{
                             ticks: {
+                                beginAtZero: true,
                                 min: 0,
                                 stepSize: 1,
+                                max: maxV+1
                             },
                             position:"left",
                             display:"true",
@@ -135,6 +179,7 @@ function studentGraph(){
                 }
                 
             })
+            Chart.pluginService.unregister(fillGapsWithZeroPlugin);
         }
     })
 }
