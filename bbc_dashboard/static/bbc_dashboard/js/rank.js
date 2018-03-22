@@ -22,6 +22,7 @@ $(document).ready(function(){
     })
 
     $("#addRankConfirm").click(function(){
+        setTimeout(300);
         if($std_id == null){
             alert("Choose one student");
             return;

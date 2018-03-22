@@ -22,6 +22,7 @@ $(document).ready(function(){
     })
 
     $("#addFeesConfirm").click(function(){
+        setTimeout(300);
         if($std_id == null){
             alert("Select one student");
             return;

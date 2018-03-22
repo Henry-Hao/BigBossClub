@@ -296,7 +296,10 @@ function attendanceGraph(){
                     }
                 }
             });
-
+            s = new Set()
+            for(i in result[1]['data']){
+                s.add(result[1]['data'][i]['y'])
+            }
             var myChart5 = new Chart($("#attChart2"),{
                 type: 'bubble',
                 data: {
@@ -307,12 +310,22 @@ function attendanceGraph(){
                     }]
                 },
                 options:{
+                    tooltips: {
+                        callbacks: {
+                           label: function(t, d) {
+                               timeLabel = moment(t.xLabel).format("HH:mm");
+                               levelLabel = t.yLabel;
+                               radiusLabel = d.datasets[0].data[t.index].r;
+                            return timeLabel+","+levelLabel+","+radiusLabel
+                           }
+                        }
+                     },
                     scales:{
                         xAxes:[{
                             type:"time",
                             bounds:"ticks",
                             time:{
-                                unit:"hour"
+                                unit:"hour",
                             },
                             display:"true",
                             scaleLabel:{
@@ -324,6 +337,7 @@ function attendanceGraph(){
                             type:"category",
                             position:"left",
                             display:"true",
+                            labels: Array.from(s),
                             scaleLabel: {
                                 display: true,
                                 labelString: 'Class Level'

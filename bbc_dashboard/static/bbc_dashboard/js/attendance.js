@@ -86,6 +86,7 @@ $(document).ready(function(){
         })
 
         $("#addAttendanceConfirm").click(function(){
+            setTimeout(300);
             if($class_id == null || $std_id.size == 0){
                 alert("Select one class and at least one student");
                 return;

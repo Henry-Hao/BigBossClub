@@ -39,7 +39,7 @@ CREATE TABLE `attendance` (
 
 LOCK TABLES `attendance` WRITE;
 /*!40000 ALTER TABLE `attendance` DISABLE KEYS */;
-INSERT INTO `attendance` VALUES (1,1,'2018-02-09'),(1,2,'2018-02-09'),(2,3,'2018-02-16'),(1,5,'2018-02-09'),(2,5,'2018-02-16'),(2,6,'2018-02-16');
+INSERT INTO `attendance` VALUES (1,1,'2018-02-09'),(1,1,'2018-02-23'),(1,2,'2018-02-09'),(1,2,'2018-02-16'),(1,2,'2018-02-23'),(1,5,'2018-02-09'),(1,5,'2018-02-16'),(2,5,'2018-02-16'),(2,9,'2018-02-23');
 /*!40000 ALTER TABLE `attendance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +153,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$30000$E9n5BcIArxhf$iJpZNc4GNwCJFW6b+lNyugJRDlgWzdp7n3fVP6f46ZU=','2018-02-20 17:30:02.530649',1,'root','','','root@uwindsor.ca',1,1,'2018-02-06 00:46:01.000000'),(2,'pbkdf2_sha256$30000$tH21QQQiKuSj$yWaPtSUBsDmhIsLjI4a793dHbNjV9VqHZ4sNCuvqfg8=','2018-02-09 15:59:09.767838',0,'new','','','asd@qwe.com',0,1,'2018-02-09 15:50:29.678082');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$30000$E9n5BcIArxhf$iJpZNc4GNwCJFW6b+lNyugJRDlgWzdp7n3fVP6f46ZU=','2018-03-19 19:35:49.334220',1,'root','','','root@uwindsor.ca',1,1,'2018-02-06 00:46:01.000000'),(2,'pbkdf2_sha256$30000$tH21QQQiKuSj$yWaPtSUBsDmhIsLjI4a793dHbNjV9VqHZ4sNCuvqfg8=','2018-02-09 15:59:09.767838',0,'new','','','asd@qwe.com',0,1,'2018-02-09 15:50:29.678082');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +241,7 @@ CREATE TABLE `class` (
 
 LOCK TABLES `class` WRITE;
 /*!40000 ALTER TABLE `class` DISABLE KEYS */;
-INSERT INTO `class` VALUES (1,3,'01:05','Beginner','Friday','666'),(2,3,'03:08','Beginner','Friday','ASD');
+INSERT INTO `class` VALUES (1,3,'13:05','Beginner','Friday','666'),(2,3,'15:08','Advanced','Friday','ASD');
 /*!40000 ALTER TABLE `class` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -353,7 +353,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('7z50ilkg40b8gsxs68unmg05f8s025yo','NjdhZTliZDNkM2I0NzUwYmZhZWZkYTRhNGIyNTMxMjA4MmVjNGY3Mzp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNmNjN2Y3NmIwZDU0NGQ2NjdiMjYwNWFkMjllNDQ5YzBjNjY5NzUxIn0=','2018-03-06 17:30:02.545718');
+INSERT INTO `django_session` VALUES ('7z50ilkg40b8gsxs68unmg05f8s025yo','NjdhZTliZDNkM2I0NzUwYmZhZWZkYTRhNGIyNTMxMjA4MmVjNGY3Mzp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNmNjN2Y3NmIwZDU0NGQ2NjdiMjYwNWFkMjllNDQ5YzBjNjY5NzUxIn0=','2018-03-06 17:30:02.545718'),('mspi4i3tocb7dnjvjgz7imlc4hzviawg','NjdhZTliZDNkM2I0NzUwYmZhZWZkYTRhNGIyNTMxMjA4MmVjNGY3Mzp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNmNjN2Y3NmIwZDU0NGQ2NjdiMjYwNWFkMjllNDQ5YzBjNjY5NzUxIn0=','2018-04-02 19:35:49.356278'),('rzuu2tz5gsvk9a5jjjyzcqmdwa3pqdnf','NjdhZTliZDNkM2I0NzUwYmZhZWZkYTRhNGIyNTMxMjA4MmVjNGY3Mzp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNmNjN2Y3NmIwZDU0NGQ2NjdiMjYwNWFkMjllNDQ5YzBjNjY5NzUxIn0=','2018-03-09 20:52:00.949553'),('xgvby7uprxksj5ws5a5jjm2er1p0j0b9','NjdhZTliZDNkM2I0NzUwYmZhZWZkYTRhNGIyNTMxMjA4MmVjNGY3Mzp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJjNmNjN2Y3NmIwZDU0NGQ2NjdiMjYwNWFkMjllNDQ5YzBjNjY5NzUxIn0=','2018-03-19 00:52:12.217555');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -374,7 +374,7 @@ CREATE TABLE `fees` (
   UNIQUE KEY `FEES_ID_UNIQUE` (`FEES_ID`),
   KEY `FEES_STUDENT_idx` (`STD_ID`),
   CONSTRAINT `fees_STD_ID_bd5c7522_fk_student_STD_ID` FOREIGN KEY (`STD_ID`) REFERENCES `student` (`STD_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -383,7 +383,7 @@ CREATE TABLE `fees` (
 
 LOCK TABLES `fees` WRITE;
 /*!40000 ALTER TABLE `fees` DISABLE KEYS */;
-INSERT INTO `fees` VALUES (5,1,'13221','2018-02-19 19:59:10',1231),(6,3,'asdas','2018-02-19 20:02:29',999);
+INSERT INTO `fees` VALUES (10,2,'Utility','2018-03-04 00:28:31',321);
 /*!40000 ALTER TABLE `fees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -399,7 +399,7 @@ CREATE TABLE `instructor` (
   `INST_LNAME` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`INST_ID`),
   UNIQUE KEY `INST_ID_UNIQUE` (`INST_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -410,6 +410,35 @@ LOCK TABLES `instructor` WRITE;
 /*!40000 ALTER TABLE `instructor` DISABLE KEYS */;
 INSERT INTO `instructor` VALUES (1,'testname'),(2,'testname2'),(3,'name3');
 /*!40000 ALTER TABLE `instructor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `membership`
+--
+
+DROP TABLE IF EXISTS `membership`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `membership` (
+  `MEM_NUM` int(5) NOT NULL AUTO_INCREMENT,
+  `MEM_FNAME` varchar(20) NOT NULL,
+  `MEM_LNAME` varchar(20) NOT NULL,
+  `MEM_STREET` varchar(20) NOT NULL,
+  `MEM_CITY` varchar(20) NOT NULL,
+  `MEM_STATE` varchar(10) NOT NULL,
+  `MEM_ZIP` int(5) NOT NULL,
+  `MEM_BALANCE` int(5) NOT NULL,
+  PRIMARY KEY (`MEM_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `membership`
+--
+
+LOCK TABLES `membership` WRITE;
+/*!40000 ALTER TABLE `membership` DISABLE KEYS */;
+/*!40000 ALTER TABLE `membership` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -429,7 +458,7 @@ CREATE TABLE `parent` (
   UNIQUE KEY `PAR_ID_UNIQUE` (`PAR_ID`),
   UNIQUE KEY `PAR_STU_ID_UNIQUE` (`PAR_STU_ID`),
   CONSTRAINT `PARENT_STUDENT` FOREIGN KEY (`PAR_STU_ID`) REFERENCES `student` (`STD_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -438,7 +467,7 @@ CREATE TABLE `parent` (
 
 LOCK TABLES `parent` WRITE;
 /*!40000 ALTER TABLE `parent` DISABLE KEYS */;
-INSERT INTO `parent` VALUES (3,'parent3','2269613209','parent3@email.com',NULL),(4,'parent2','2269611243','abc@uwindsor.ca',NULL);
+INSERT INTO `parent` VALUES (3,'parent3','2269613290','parent3@email.com',NULL),(4,'parent2','2269611243','abc@uwindsor.ca',NULL);
 /*!40000 ALTER TABLE `parent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -458,7 +487,7 @@ CREATE TABLE `rank` (
   UNIQUE KEY `RANK_ID_UNIQUE` (`RANK_ID`),
   KEY `RANK_STUDENT_idx` (`STD_ID`),
   CONSTRAINT `rank_STD_ID_59d81ffd_fk_student_STD_ID` FOREIGN KEY (`STD_ID`) REFERENCES `student` (`STD_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -467,7 +496,7 @@ CREATE TABLE `rank` (
 
 LOCK TABLES `rank` WRITE;
 /*!40000 ALTER TABLE `rank` DISABLE KEYS */;
-INSERT INTO `rank` VALUES (3,5,'White','2018-02-02/19/18 22:57:04'),(4,6,'White','2018-02-19 22:58:23');
+INSERT INTO `rank` VALUES (3,5,'White','2018-02-19 22:57:04'),(9,9,'White','2018-03-04 15:34:03'),(12,10,'White','2018-03-19 17:34:08'),(13,1,'Yellow','2018-03-19 18:38:23'),(14,9,'Green','2018-03-19 18:38:38');
 /*!40000 ALTER TABLE `rank` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -491,7 +520,7 @@ CREATE TABLE `student` (
   UNIQUE KEY `STU_ID_UNIQUE` (`STD_ID`),
   KEY `STUDENT_PARENT_idx` (`PAR_ID`),
   CONSTRAINT `student_PAR_ID_08af56b4_fk_parent_PAR_ID` FOREIGN KEY (`PAR_ID`) REFERENCES `parent` (`PAR_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -500,9 +529,13 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (1,3,'student1','1994-07-01','2017-09-01','2269619876','hao119@uwindror.ca','add1'),(2,4,'student2','1995-07-01','2017-10-01','1234567891','h2@email.com','add2'),(3,3,'test','2018-02-07','2018-02-18','asdsadasd','assad','add3'),(5,NULL,'student3','1990-11-15','2018-02-19','11133334444','student3@iuwind.ca','add5'),(6,NULL,'student5','1980-07-18','2018-02-19','12313','1231','add6');
+INSERT INTO `student` VALUES (1,3,'student1','1994-07-01','2017-09-01','2269619876','hao119@uwindror.ca','add1'),(2,4,'student2','1995-07-01','2017-10-01','1234567891','h2@email.com','add2'),(5,4,'student3','2018-03-01','2018-02-19','11133334444','student3@iuwind.ca','add5'),(9,NULL,'student4','1994-07-01','2018-03-04','2269613209','haoyixian1994@hotmail.com','505 Randolph Ave'),(10,NULL,'student5','1990-07-06','2018-03-19','111222333','student5@uwindsor.ca','sunset 401');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'bbc'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -513,4 +546,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-23 20:46:14
+-- Dump completed on 2018-03-21 16:36:11

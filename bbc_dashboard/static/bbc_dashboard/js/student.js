@@ -66,6 +66,7 @@ $(document).ready(function(){
 	
 	
 	$("#addStudentConfirm").click(function(){
+		setTimeout(300);
 		var name = $("#add_name").val().trim();
 		var email = $("#add_email").val().trim();
 		var mobilenumber = $("#add_mobilenumber").val().trim();
@@ -91,6 +92,7 @@ $(document).ready(function(){
 	});
 
 	$("#modifyStudentConfirm").click(function(){
+		setTimeout(300);
 		var name = $("#modify_name").val().trim();
 		var email = $("#modify_email").val().trim();
 		var mobilenumber = $("#modify_mobilenumber").val().trim();

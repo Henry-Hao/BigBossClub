@@ -64,7 +64,8 @@
             "args": [
                 "runserver",
                 "--noreload",
-                "--no-color"
+                "--no-color",
+                "--insecure"
             ],
             "debugOptions": [
                 "WaitOnAbnormalExit",
