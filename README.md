@@ -10,10 +10,10 @@ Some available screenshots are listed below.
 ![img](screenshot/student.png)
 
 ## Add a new object to the table (Student Table)
-![img](screenshot/addstudent.png)
+![img](screenshot/addStudent.png)
 
 ## Modify an existing object in the table (Student Table)
-![img](screenshot/modifystudent.png)
+![img](screenshot/modifyStudent.png)
 
 ## Some Statistical Analyses
 ![img](screenshot/stat1.png)
